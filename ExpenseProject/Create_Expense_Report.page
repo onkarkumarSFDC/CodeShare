@@ -1,0 +1,64 @@
+<apex:page standardController="Expense_Report__c" extensions="CreateExpenseReport_ExtensionController" title="Expense Report Edit: {!sectionHeaderSubTitle}" id="pageId">
+    <style>
+        .redFont{
+            color:red;
+        }
+    </style>
+    <apex:sectionHeader title="Expense Report Edit" subtitle="{!sectionHeaderSubTitle}" id="sectionHeaderId"/>
+    <apex:form id="formId">
+        <apex:pageMessages id="pageMessagesId">
+        </apex:pageMessages>
+        <apex:pageBlock title="Expense Report Edit" mode="Edit" id="pageBlockId">
+            <apex:pageBlockButtons id="pageBlockButtonsId">
+                <apex:commandButton action="{!save}" value="Save" id="saveButtonId"/>
+                <apex:commandButton action="{!cancel}" value="Cancel" id="cancelButtonId"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageblockSection title="Information" columns="1" id="pageblockSectionId">
+                <apex:inputField value="{!Expense_Report__c.Name}" required="true" id="inputFieldNameId"/>
+                <apex:inputField value="{!Expense_Report__c.Period_Ending_Date__c}" required="true" id="inputFieldEndDateId"/>
+                <apex:inputField value="{!Expense_Report__c.Project__c}" id="inputFieldProjectId"/>
+            </apex:pageblockSection>
+        </apex:pageBlock>
+        <apex:actionRegion >
+        <apex:pageBlock title="Add Expense Item" id="pageBlockExpenseItemId" mode="Edit">
+            <apex:pageBlockButtons location="top" id="pageBlockButtonsExpenseItemId">
+                <apex:commandButton action="{!addExpenseItemRow}" value="Add Expense Item" rerender="pageBlockTableId, pageMessagesId" id="addExpenseItemButtonId"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!expenseItemList}" var="expenseItemsVar" id="pageBlockTableId">
+                <apex:column headerValue="Remove Item" id="columnRemoveItemId">
+                    <apex:commandLink value="Remove" action="{!removeExpenseItemRow}" reRender="pageBlockTableId , pageMessagesId" id="commandLinkRemoveId">
+                        <apex:param name="removeIndex" assignTo="{!removeIndex}" value="{!expenseItemsVar.recordIndex}"/>
+                    </apex:commandLink>
+                </apex:column>
+                
+                <apex:column id="columnExpenseDateId">
+                    <apex:facet name="header">
+                        <apex:outputLabel value="Expense Date" styleClass="redFont" id="outputLabelExpenseDateId"/>
+                    </apex:facet>
+                    <apex:inputField value="{!expenseItemsVar.expenseItem.Expense_Date__c}" required="false" id="inputFieldExpenseDateId"/>
+                </apex:column>
+                <apex:column id="columnAmountId">
+                    <apex:facet name="header">
+                        <apex:outputLabel value="Amount" styleClass="redFont" id="outputLabelAmountId"/>
+                    </apex:facet>
+                    <apex:inputField value="{!expenseItemsVar.expenseItem.Amount__c}" required="false" id="inputFieldAmountId"/>
+                </apex:column>
+                <apex:column id="columnExpenseCategoryId">
+                    <apex:facet name="header">
+                        <apex:outputLabel value="Expense Category" styleClass="redFont" id="outputLabelExpenseCategoryId"/>
+                    </apex:facet>
+                    <apex:inputField value="{!expenseItemsVar.expenseItem.Expense_Category__c}" required="false" id="inputFieldExpenseCategoryId"/>
+                </apex:column>
+                <apex:column headerValue="Vendor" id="columnVendorId">
+                    <apex:inputField value="{!expenseItemsVar.expenseItem.Vendor__c}" id="inputFieldVendorId"/>
+                </apex:column>
+                <apex:column headerValue="Comment" id="columnCommentId">
+                    <apex:inputField value="{!expenseItemsVar.expenseItem.Comment__c}" id="inputFieldCommentId"/>
+                </apex:column>
+               
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        </apex:actionRegion>
+    </apex:form>
+</apex:page>

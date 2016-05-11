@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Amount__c</fullName>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Comment__c</fullName>
+        <inlineHelpText>Please provide any clarifying information</inlineHelpText>
+        <label>Comment</label>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Expense_Category__c</fullName>
+        <label>Expense Category</label>
+        <referenceTo>Expense_Category__c</referenceTo>
+        <relationshipLabel>Expense Items</relationshipLabel>
+        <relationshipName>Expense_Items</relationshipName>
+        <relationshipOrder>1</relationshipOrder>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Expense_Date__c</fullName>
+        <label>Expense Date</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Expense_Report__c</fullName>
+        <label>Expense Report</label>
+        <referenceTo>Expense_Report__c</referenceTo>
+        <relationshipLabel>Expense Items</relationshipLabel>
+        <relationshipName>Expense_Items</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>Vendor__c</fullName>
+        <label>Vendor</label>
+        <referenceTo>Vendor__c</referenceTo>
+        <relationshipLabel>Expense Items</relationshipLabel>
+        <relationshipName>Expense_Items</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <label>Expense Item</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Expense_Date__c</columns>
+        <columns>Amount__c</columns>
+        <columns>Expense_Category__c</columns>
+        <columns>Vendor__c</columns>
+        <columns>Comment__c</columns>
+        <columns>Expense_Report__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>EI-{00000}</displayFormat>
+        <label>Expense Item Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Expense Items</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Comment__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Expense_Category__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Expense_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Expense_Report__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Vendor__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Expense_Category__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Expense_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Vendor__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Expense_Report__c</lookupDialogsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <startsWith>Vowel</startsWith>
+</CustomObject>

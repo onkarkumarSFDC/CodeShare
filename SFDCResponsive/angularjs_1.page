@@ -1,0 +1,245 @@
+<apex:page controller="controllerCls" showHeader="false" applyHtmlTag="true" sidebar="fale" standardStylesheets="false" docType="html-5.0">
+
+<apex:stylesheet value="{!URLFOR($Resource.bootstrapsfdc, '/bootstrapSfdc/css/SFDCbootstrap.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.anjularjs, '/angular-1.2.18/angular.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.JQUery, '/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.bootstrapsfdc, '/bootstrapSfdc/js/bootstrap.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.JQUery, '/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.anjularjs, '/angular-1.2.18/angular.min.js')}"/>
+
+<apex:includeScript value="{!URLFOR($Resource.nginfinitescroll, '/ngInfiniteScroll-1.0.0/build/ng-infinite-scroll.js')}"/>
+
+
+<!--<apex:sectionHeader title="Account List" subtitle="Account"/> -->
+<div class="bootstrap-sfdc" style=" background-color: #fff;margin-top: 10px;" ng-app="myutil" >
+<!-- Model -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Opportunity Name:</label>
+            <input type="text" class="form-control" id="name"/>
+          </div>
+            <div class="form-group">
+            <label for="message-text" class="control-label">Amount:</label>
+            <input class="form-control" id="amount"></input>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Description:</label>
+            <textarea class="form-control" id="description"></textarea>
+          </div>
+          <div class='input-group date' id='datetimepicker1'>
+               <input type='text' class="form-control" />
+               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+               </span>
+           </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click='close()'>Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+      </div>
+      <div class="progress">
+ <!-- <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+    <span class="sr-only">40% Complete (success)</span>
+  </div> -->
+</div>
+    </div>
+  </div>
+</div>
+<!-- End Model -->
+     <nav class="navbar navbar-default">
+         <div class="navbar-header">
+             <a href="#" class="navbar-brand">Search Account</a>
+         </div>
+          <form class="navbar-form" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+              </div>
+              <button type="button" class="btn btn-default btn-xl" id="optionBtn">
+                  <span class=" glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;Show in List
+              </button>
+              <button type="button" class="btn btn-default btn-xl" id="optionBtn1">
+                  <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;Show in Grid
+              </button>
+          </form>
+     </nav>
+
+
+     <div ng-controller ="MyController">
+         <div class="panel panel-default">
+             <div class="panel-body">
+                <!-- Grid Start -->
+                 <div class="container-fluid" id="effect">
+                     <div class="row">
+                         <div ng-repeat = "Ac in sfdcResult | filter:searchText">
+                              <div class="col-md-auto col-md-4">
+                                   <div class="thumbnail panel panel-primary">
+                                        <div class="caption" style="height:140px">
+                                              <h4> {{Ac.Name}} </h4>
+                                              <p>$ {{Ac.Amount}} USD</p>
+                                              <p>{{Ac.Account.Name}}</p>
+                                              <p><a href="#" class="btn btn-primary btn-xs"  type="button"  data-toggle="modal" data-target="#exampleModal" data-whatever="{{Ac}}">
+                                              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit 
+                                              </a>
+                                              <a href="#" class="btn btn-default btn-xs" role="button">
+                                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                               Delete </a></p>
+                                      </div>
+                                  </div>
+                                </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- Grid End -->
+              <div class="container-fluid" id="effect1" style="display:none">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th data-field="id">Action</th>
+                      <th data-field="id">Name</th>
+                      <th data-field="name">Amount</th>
+                    </tr>
+                  </thead>
+                     <tr ng-repeat = "Ac in sfdcResult | filter:searchText">
+                         <td>
+                             <p><a href="#" class="btn btn-primary btn-xs"  type="button"  data-toggle="modal" data-target="#exampleModal" data-whatever="{{Ac}}">
+                                              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit 
+                                              </a>
+                                <a href="#" class="btn btn-default btn-xs" role="button">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                Delete </a>
+                              </p>
+                         </td>
+                         <td>
+                             {{Ac.Name}}
+                         </td>
+                          <td>
+                             {{Ac.Amount}}
+                         </td>
+                     </tr>
+              </table>
+            </div>
+             </div>
+         </div>
+     </div>
+
+</div>
+    
+   <script language="javascript" type="text/javascript">
+   
+   $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+  var modal = $(this)
+      modal.find('.modal-title').text('Opportunity Edit :   ' + recipient.Name)
+      modal.find('.modal-body input[id="name"]').val(recipient.Name)
+      modal.find('.modal-body input[id="amount"]').val(recipient.Amount)
+      modal.find('.modal-body input[id="description"]').val(recipient.Description)
+  
+})
+    $(function() {
+        
+             
+         $( "#optionBtn" ).click(function() {
+              //getRemoteAccount();
+              $( "#optionBtn" ).removeClass();
+              $( "#optionBtn").addClass("btn btn-primary btn-xl");
+              $( "#optionBtn1" ).removeClass();
+              $( "#optionBtn1").addClass("btn btn-default btn-xl");
+              
+              options = { to: { width: 200, height: 60 } };
+              $( "#effect" ).effect( "drop", options);
+              $( "#effect1" ).show( "drop", options, 500 );
+          });
+          $( "#optionBtn1" ).click(function() {
+              $( "#optionBtn1" ).removeClass();
+              $( "#optionBtn1").addClass("btn btn-primary btn-xl");
+              $( "#optionBtn" ).removeClass();
+              $( "#optionBtn").addClass("btn btn-default btn-xl");
+             options = { to: { width: 280, height: 185 } };
+             $( "#effect" ).show( "drop", options, 500 );
+             $( "#effect1" ).effect( "drop", options);
+          });
+           
+       
+    });
+
+    var myutil = angular.module("myutil", []);
+    
+    myutil.factory("SFDCfactory",["$q","$rootScope", function($q,$rootScope) {
+       return function (){
+             var deferred = $q.defer();
+             Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.controllerCls.getAccountsJSON}',
+                function(result, event){
+                   $rootScope.$apply(function() {
+                      if (event.status){
+                        deferred.resolve(result);
+                      } else {
+                        deferred.reject(event);
+                      }
+                    })
+                },
+           { buffer: true, escape: true, timeout: 30000 }
+            
+            );
+             return deferred.promise;
+        }
+    }]);
+
+myutil.factory("SFDCfactory_update",["$q","$rootScope", function($q,$rootScope) {
+       return function (){
+             var deferred = $q.defer();
+             Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.controllerCls.getAccountsJSON}',
+                function(result, event){
+                   $rootScope.$apply(function() {
+                      if (event.status){
+                        deferred.resolve(result);
+                      } else {
+                        deferred.reject(event);
+                      }
+                    })
+                },
+           { buffer: true, escape: true, timeout: 30000 }
+            
+            );
+             return deferred.promise;
+        }
+    }]);
+    
+    myutil.controller("MyController",['$scope', 'SFDCfactory', function($scope,SFDCfactory,SFDCfactory_update) {
+      //this.Accounts = $scope.sfdcResult;
+      SFDCfactory().then(function(result) {$scope.sfdcResult = JSON.parse(htmlDecode(result));},
+        function(error)  {$scope.sfdcResult = 'ERROR: ' + error.message;}
+      )
+     
+      $scope.save = function () {
+         
+      };
+
+    $scope.close = function () {
+     
+      $this.dismiss('cancel');
+    };
+
+    }]);
+    function htmlDecode(value) {
+        if (value) {
+            return $('<div />').html(value).text();
+        } else {
+            return '';
+        }
+    }   
+
+</script>
+</apex:page>
